@@ -7,6 +7,7 @@ import pytz
 import re
 import tkinter as tk
 from tkinter import messagebox
+import pygame
 
 logging.basicConfig(
     filename="alerts.log",
@@ -24,12 +25,30 @@ ALLOWED_AREAS = {
 
 def show_popup(message_text):
     root = tk.Tk()
-    root.withdraw()  # הסתר את חלון הטופ
+    root.withdraw()
     root.attributes("-topmost", True)
     messagebox.showinfo("📢 התרעת פיקוד העורף", message_text)
+    
+    # ברגע שהמשתמש סוגר את הפופאפ - עצור את המוזיקה
+    try:
+        pygame.mixer.music.stop()
+    except Exception as e:
+        print(f"שגיאה בעצירת סאונד: {e}")
+    
     root.destroy()
 
+
+def play_alert_sound():
+    try:
+        pygame.mixer.init()
+        pygame.mixer.music.load("alert.mp3")
+        pygame.mixer.music.play()
+    except Exception as e:
+        print(f"שגיאה בהפעלת סאונד: {e}")
+
+
 def check_alerts():
+    print ("CobaltRedAlert Desktop V0.1 Alpha")
     print("בודק התראות...")
     url = "https://www.oref.org.il/WarningMessages/alert/alerts.json"
     headers = {"User-Agent": "Mozilla/5.0"}
@@ -60,6 +79,9 @@ def check_alerts():
 
         if matched_areas:
             print("התראה רלוונטית")
+            
+            play_alert_sound()
+
 
             tz = pytz.timezone("Asia/Jerusalem")
             now_str = datetime.now(tz).strftime("%H:%M")
