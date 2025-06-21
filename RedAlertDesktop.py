@@ -137,8 +137,8 @@ class ConfigEditorFrame(wx.Frame):
         CobaltRedAlert - Desktop Edition
         גרסה: V0.2 beta
 
-        עורך הגדרות זה מאפשר לך לבחור את אזורי ההתראה הרצויים.
-        נוצר כדוגמה לבקשתך.
+        תוכנה להתראות צבע אדום.
+        פותחה על ידי אשי ורד ושילה סיאני
         """
         wx.MessageBox(about_message, "אודות התוכנה", wx.OK | wx.ICON_INFORMATION)
 
